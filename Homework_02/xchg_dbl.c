@@ -2,7 +2,8 @@
 * FILE: xchg_dbl.c
 * DESCRIPTION:
 *   Exchange one double value between process with rank 0 and process with
-*   rank 1. Calculate the execution time using MPI_Wtime.
+*   rank 1. Calculate the execution time using MPI_Wtime for blocking & non-
+*   blocking send/receive with single & round-trip transmissions.
 * AUTHOR: David Nguyen
 * CONTACT: david@knytes.com
 * LAST REVISED: 19/02/2020
