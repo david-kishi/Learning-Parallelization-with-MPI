@@ -11,12 +11,12 @@ int main (int nargs , char ** args) {
     MPI_Comm_rank (MPI_COMM_WORLD , &rank);
     MPI_Get_processor_name(processor_name , &name_len);
 
+    omp_set_num_threads(8);
     #pragma omp parallel private(thread_id , nthreads) 
     {
         thread_id = omp_get_thread_num ();
         nthreads = omp_get_num_threads ();
-        printf("Thread number %d (on %d) for the MPI process number %d (on %d) [%s]\n",
-        thread_id , nthreads , rank , nprocs ,processor_name);
+        printf("Thread number %d (on %d) for the MPI process number %d (on %d) [%s]\n", thread_id , nthreads , rank , nprocs ,processor_name);
     }
 
     MPI_Finalize();

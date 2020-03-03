@@ -1,0 +1,3 @@
+[submodule "Projects/1/Parallel-Ring-Leader-Election"]
+	path = Projects/1/Parallel-Ring-Leader-Election
+	url = https://github.com/david-kishi/Parallel-Ring-Leader-Election
