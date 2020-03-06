@@ -5,7 +5,7 @@
 *   then counts amount of odd values in array
 * AUTHOR: David Nguyen
 * CONTACT: david@knytes.com
-* LAST REVISED: 04/03/2020
+* LAST REVISED: 05/03/2020 23:15:45 GMT-8
 ******************************************************************************/
 #include <omp.h>
 #include <stdio.h>
@@ -26,12 +26,14 @@ int main (int nargs , char ** args) {
     #pragma omp parallel for
         for (i = 0; i < DESIRED_ARR_SIZE; i++){
             array[i] = 0;
+            printf("ZERO_SETTING: Thread %d set index %d to %d\n",omp_get_thread_num(), i, array[i]);
         }
 
     // Add 3*i to each element of array
     #pragma omp parallel for
         for (i = 0; i < DESIRED_ARR_SIZE; i++){
-            array[i] += 3*i;           
+            array[i] += 3*i;
+            printf("ADDITION_3*I: Thread %d added %d to index %d\n",omp_get_thread_num(), array[i], i);
         }
 
     #pragma omp parallel private(oddCount) shared(sum)
@@ -42,10 +44,15 @@ int main (int nargs , char ** args) {
         oddCount = 0;
 
         for (i = t_id; i < DESIRED_ARR_SIZE; i += DESIRED_NUM_THREADS){
+            //printf("SEARCHING: Thread %d is peeking index %d\n", t_id, i); // this print affects odd count
             if(array[i]%2 != 0){
                 oddCount += 1;
+                //printf("fill\n"); // this print affects odd count
+                //printf("FOUND: Thread %d found odd value %d at index %d\n",t_id, array[i], i); // this print affects odd count
             }
         }
+
+        printf("Thread %d found %d odd values\n",t_id, oddCount);
         
         #pragma omp critical
         sum += oddCount;
