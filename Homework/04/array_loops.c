@@ -5,7 +5,7 @@
 *   then counts amount of odd values in array
 * AUTHOR: David Nguyen
 * CONTACT: david@knytes.com
-* LAST REVISED: 05/03/2020 23:15:45 GMT-8
+* LAST REVISED: 07/03/2020 14:17:30 GMT-8
 ******************************************************************************/
 #include <omp.h>
 #include <stdio.h>
