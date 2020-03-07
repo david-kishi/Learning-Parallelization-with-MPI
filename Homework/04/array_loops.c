@@ -23,20 +23,20 @@ int main (int nargs , char ** args) {
     omp_set_num_threads(DESIRED_NUM_THREADS);
 
     // Populate array with all zeros
-    #pragma omp parallel for
+    #pragma omp parallel for private(i)
         for (i = 0; i < DESIRED_ARR_SIZE; i++){
             array[i] = 0;
             printf("ZERO_SETTING: Thread %d set index %d to %d\n",omp_get_thread_num(), i, array[i]);
         }
 
     // Add 3*i to each element of array
-    #pragma omp parallel for
+    #pragma omp parallel for private(i)
         for (i = 0; i < DESIRED_ARR_SIZE; i++){
             array[i] += 3*i;
             printf("ADDITION_3*I: Thread %d added %d to index %d\n",omp_get_thread_num(), array[i], i);
         }
 
-    #pragma omp parallel private(oddCount) shared(sum)
+    #pragma omp parallel private(oddCount, i) shared(sum)
     {
         int t_id = omp_get_thread_num();
 
@@ -44,11 +44,10 @@ int main (int nargs , char ** args) {
         oddCount = 0;
 
         for (i = t_id; i < DESIRED_ARR_SIZE; i += DESIRED_NUM_THREADS){
-            //printf("SEARCHING: Thread %d is peeking index %d\n", t_id, i); // this print affects odd count
+            printf("SEARCHING: Thread %d is peeking index %d\n", t_id, i); // this print affects odd count
             if(array[i]%2 != 0){
                 oddCount += 1;
-                //printf("fill\n"); // this print affects odd count
-                //printf("FOUND: Thread %d found odd value %d at index %d\n",t_id, array[i], i); // this print affects odd count
+                printf("FOUND: Thread %d found odd value %d at index %d\n",t_id, array[i], i); // this print affects odd count
             }
         }
 
